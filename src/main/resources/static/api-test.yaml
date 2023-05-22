@@ -1,0 +1,332 @@
+openapi: 3.0.0
+
+info:
+  version: v0.1.0
+  title: Task [Template] API
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Local development server
+  - url: https://api.task.info/template/api/v1
+    description: Production server.
+
+components:
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
+
+  parameters:
+    order-id:
+      name: order-id
+      in: path
+      required: true
+      schema:
+        type: string
+    offsetParam:
+      in: query
+      name: offset
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+      description: The number of items to skip before starting to collect the result set.
+
+    limitParam:
+      in: query
+      name: limit
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 120
+        default: 20
+      description: The numbers of items to return.
+
+    sortParam:
+      in: query
+      name: sort
+      required: false
+      schema:
+        type: string
+      description: The sort property, if the sort property starts with `<` it will sort ASC, or `>` it will sort DESC.
+
+    filterParam:
+      in: query
+      name: filter
+      required: false
+      schema:
+        type: string
+      description: Filter results using RSQL queries.
+
+
+  responses:
+    Error:
+      description: Error occured
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    post-orders-response:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              orders:
+                type: array
+                items:
+                  $ref: '#/components/schemas/order'
+            required:
+              - orders
+          examples:
+            success-example:
+              $ref: '#/components/examples/post-orders-success-example'
+    get-orders-response:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              orders:
+                type: array
+                items:
+                  $ref: '#/components/schemas/order'
+            required:
+              - orders
+          examples:
+            success-example:
+              $ref: '#/components/examples/get-orders-success-example'
+
+  schemas:
+    Error:
+      properties:
+        code:
+          type: string
+          description: Error code if any.
+        message:
+          type: string
+          description: General error message
+        details:
+          type: string
+          description: Error details.
+        violations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Violation'
+
+    Violation:
+      description: Violation in API request
+      discriminator:
+        propertyName: type
+        mapping:
+          ConstraintViolation: '#/components/schemas/ConstraintViolation'
+      properties:
+        type:
+          description: Violation type
+          type: string
+        message:
+          description: Violation message
+          type: string
+    ConstraintViolation:
+      allOf:
+        - $ref: '#/components/schemas/Violation'
+        - type: object
+          properties:
+            property:
+              type: string
+              description: Property name
+    order-item:
+      title: order-item
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        originalPrice:
+          type: number
+        discountedPrice:
+          type: number
+      required:
+        - id
+        - originalPrice
+        - discountedPrice
+    order-offer:
+      title: order-offer
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        itemId:
+          type: string
+        priceReduction:
+          type: number
+        quantityThreshold:
+          type: integer
+      required:
+        - id
+        - name
+        - itemId
+        - priceReduction
+    order:
+      title: order
+      type: object
+      properties:
+        id:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/order-item'
+        offers:
+          type: array
+          items:
+            $ref: '#/components/schemas/order-offer'
+      required:
+        - id
+        - items
+        - offers
+  examples:
+    get-orders-success-example:
+      value:
+        description: GET orders success example
+        orders:
+          - id: order1
+            items:
+              - id: item1
+                name: Item 1
+                originalPrice: 1.5
+                discountedPrice: 0.75
+              - id: item2
+                name: Item 2
+                originalPrice: 9.99
+                discountedPrice: 9.99
+              - id: item2
+                name: Item 2
+                originalPrice: 9.99
+                discountedPrice: 0
+            offers:
+              - id: offer1
+                name: Half-price
+                itemId: item1
+                priceReduction: 0.5
+                quantityThreshold: 1
+              - id: offer2
+                name: Buy 1 get 1
+                itemId: item2
+                priceReduction: 1
+                quantityThreshold: 2
+    post-orders-success-example:
+      value:
+        description: POST orders success example
+        orders:
+          - id: order1
+            items:
+              - id: item1
+                name: Item 1
+                originalPrice: 1.5
+                discountedPrice: 0.75
+              - id: item2
+                name: Item 2
+                originalPrice: 9.99
+                discountedPrice: 9.99
+              - id: item2
+                name: Item 2
+                originalPrice: 9.99
+                discountedPrice: 0
+            offers:
+              - id: offer1
+                name: Half-price
+                itemId: item1
+                priceReduction: 0.5
+                quantityThreshold: 1
+              - id: offer2
+                name: Buy 1 get 1
+                itemId: item2
+                priceReduction: 1
+                quantityThreshold: 2
+
+paths:
+  /sample:
+    get:
+      summary: Sample Get API (Remove)
+      operationId: sample
+      responses:
+        200:
+          description: OK
+  /orders:
+    post:
+      summary: place orders
+      tags:
+        - public
+      operationId: post-orders
+      responses:
+        '200':
+          $ref: '#/components/responses/post-orders-response'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                orders:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/order'
+              required:
+                - orders
+        description: ''
+      description: Place orders
+    get:
+      summary: get orders
+      tags:
+        - public
+      operationId: get-orders
+      responses:
+        '200':
+          $ref: '#/components/responses/get-orders-response'
+      parameters:
+        - schema:
+            type: array
+          in: query
+          name: orderIds[]
+          required: true
+          description: order IDs to get
+      description: Get orders by ID
+    parameters: [ ]
+  /taxes:
+    get:
+      summary: TAXES API that returns the total tax user needs to pay
+      operationId: calculateTax
+      parameters:
+        - name: income
+          description: user income
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: months
+          description: number of months
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: double
+        default:
+          $ref: '#/components/responses/Error'
+
+

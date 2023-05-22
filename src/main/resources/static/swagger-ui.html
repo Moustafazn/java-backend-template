@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Task API</title>
+
+    <link href="favicon.ico" rel="icon" type="image/x-icon">
+    <link href="https://unpkg.com/swagger-ui-dist@3/swagger-ui.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div id="swagger-ui"></div>
+
+<script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-standalone-preset.js"></script>
+<script src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"></script>
+
+<script>
+    window.onload = function () {
+      // Build a system
+      const redirectUrl = location.origin + location.pathname.substring(0, location.pathname.lastIndexOf("/")) + '/oauth2-redirect.html';
+
+      const ui = SwaggerUIBundle({
+        url: "./api.yaml",
+        dom_id: '#swagger-ui',
+        deepLinking: true,
+        oauth2RedirectUrl: redirectUrl,
+        presets: [
+          SwaggerUIBundle.presets.apis
+        ],
+        plugins: [
+          SwaggerUIBundle.plugins.DownloadUrl
+        ],
+      })
+
+      ui.initOAuth({
+         clientId: 'admin-portal'
+      });
+
+      window.ui = ui
+    }
+
+
+</script>
+</body>
+
+</html>
