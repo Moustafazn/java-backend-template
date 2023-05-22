@@ -74,7 +74,7 @@ components:
         application/json:
           schema:
             type: object
-            title: ordersList
+            title: orders
             properties:
               orders:
                 type: array
@@ -102,6 +102,141 @@ components:
           examples:
             success-example:
               $ref: '#/components/examples/get-orders-success-example'
+    get-offers-management-response:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            title: offersManagementOfferList
+            type: object
+            properties:
+              offers:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offers-management-offer'
+            required:
+              - offers
+          examples:
+            success-example:
+              $ref: '#/components/examples/get-offers-management-success-example'
+    post-offers-management-response:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            title: offersManagementOffers
+            properties:
+              offers:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offers-management-offer'
+            required:
+              - offers
+          examples:
+            success-example:
+              $ref: '#/components/examples/post-offers-management-success-example'
+    delete-offers-management-response:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              offerIds:
+                type: array
+                items:
+                  type: string
+            required:
+              - offerIds
+          examples:
+            success-example:
+              $ref: '#/components/examples/delete-offers-management-success-example'
+    get-offers-response:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            title: offers
+            properties:
+              offers:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offer'
+            required:
+              - offers
+          examples:
+            success-example:
+              $ref: '#/components/examples/get-offers-success-example'
+    get-items-response:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            title: lines
+            properties:
+              lines:
+                type: array
+                items:
+                  $ref: '#/components/schemas/line'
+            required:
+              - lines
+          examples:
+            success-example:
+              $ref: '#/components/examples/get-items-example'
+    get-items-management-response:
+      description: Allows internal API consumers to list of inventory items. Returns list of all inventory items.
+      content:
+        application/json:
+          schema:
+            type: object
+            title: itemsManagementLineList
+            properties:
+              lines:
+                type: array
+                items:
+                  $ref: "#/components/schemas/items-management-line"
+            required:
+              - lines
+          examples:
+            success-example:
+              $ref: "#/components/examples/get-items-management-success-example"
+    post-items-management-response:
+      description: Allows internal API consumers to add and update inventory items. Returns list of added and updated inventory items only.
+      content:
+        application/json:
+          schema:
+            type: object
+            title: itemsManagementLines
+            properties:
+              lines:
+                type: array
+                items:
+                  $ref: "#/components/schemas/items-management-line"
+            required:
+              - lines
+          examples:
+            success-example:
+              $ref: "#/components/examples/post-items-management-success-example"
+    delete-items-management-response:
+      description: Allows internal API consumers to remove inventory items. Returns ids of removed inventory items.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              itemIds:
+                type: array
+                items:
+                  type: string
+            required:
+              - itemIds
+          examples:
+            success-example:
+              $ref: "#/components/examples/delete-items-management-success-example"
+
 
   schemas:
     Error:
@@ -194,6 +329,112 @@ components:
         - id
         - items
         - offers
+    offers-management-offer:
+      title: offers-management-offer
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        itemId:
+          type: string
+        priceReduction:
+          type: number
+        description:
+          type: string
+        quantityThreshold:
+          type: integer
+      required:
+        - id
+        - name
+        - itemId
+        - priceReduction
+        - description
+        - quantityThreshold
+    offer:
+      title: offer
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        itemId:
+          type: string
+        priceReduction:
+          type: number
+        quantityThreshold:
+          type: integer
+      required:
+        - id
+        - name
+        - description
+        - itemId
+        - priceReduction
+        - quantityThreshold
+    item:
+      title: item
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+      required:
+        - id
+        - name
+        - description
+        - price
+    line:
+      title: line
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/item'
+        quantity:
+          type: integer
+      required:
+        - item
+        - quantity
+    items-management-line:
+      title: items-management-line
+      type: object
+      properties:
+        item:
+          $ref: "#/components/schemas/items-management-item"
+        quantity:
+          type: integer
+      required:
+        - item
+        - quantity
+    items-management-item:
+      title: items-management-item
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        cost:
+          type: number
+      required:
+        - id
+        - name
+        - description
+        - price
+        - cost
+      description: ""
   examples:
     get-orders-success-example:
       value:
@@ -253,6 +494,134 @@ components:
                 itemId: item2
                 priceReduction: 1
                 quantityThreshold: 2
+    get-offers-management-success-example:
+      value:
+        description: GET offers success example
+        offers:
+          - id: offer1
+            name: Half-price
+            description: Stellar deal on Item 1! Pay just 50%
+            itemId: item1
+            priceReduction: 0.5
+            quantityThreshold: 1
+          - id: offer2
+            name: Buy 1 get 1
+            description: 'Buy 1 Item 2, get a second free!'
+            itemId: item2
+            priceReduction: 1
+            quantityThreshold: 2
+    post-offers-management-success-example:
+      value:
+        description: POST offers success example
+        offers:
+          - id: offer2
+            name: Buy 1 get 1
+            description: 'Buy 1 Item 2, get a second half-price!'
+            itemId: item2
+            priceReduction: 0.5
+            quantityThreshold: 2
+          - id: offer3
+            name: 20% off
+            description: 20% off on Item 3
+            itemId: item3
+            priceReduction: 0.2
+            quantityThreshold: 1
+    delete-offers-management-success-example:
+      value:
+        description: delete offers success example
+        offerIds:
+          - offer1
+    get-offers-success-example:
+      value:
+        description: GET offers success example
+        offers:
+          - id: offer1
+            name: Half-price
+            description: Stellar deal on Item 1! Pay just 50%
+            itemId: item1
+            priceReduction: 0.5
+            quantityThreshold: 1
+          - id: offer2
+            name: Buy 1 get 1
+            description: 'Buy 1 Item 2, get a second free!'
+            itemId: item2
+            priceReduction: 1
+            quantityThreshold: 2
+    get-items-example:
+      value:
+        description: GET items success example
+        lines:
+          - item:
+              id: item1
+              name: Item 1
+              description: Amazing first item for iteming your items firstly
+              price: 1.50
+            quantity: 2
+          - item:
+              id: item2
+              name: Item 2
+              description: Incredible second item for iteming your items secondly
+              price: 9.99
+            quantity: 3
+          - item:
+              id: item3
+              name: Item 3
+              description: Unbelievable third item for iteming your items thirdly
+              price: 100.00
+            quantity: 0
+    delete-items-management-success-example:
+      value:
+        itemIds:
+          - item3
+    get-items-management-success-example:
+      value:
+        lines:
+          - item:
+              id: item1
+              name: Item 1
+              description: Amazing first item for iteming your items firstly
+              price: 1.5
+              cost: 0.5
+            quantity: 2
+          - item:
+              id: item2
+              name: Item 2
+              description: Incredible second item for iteming your items secondly
+              price: 9.99
+              cost: 5
+            quantity: 3
+          - item:
+              id: item3
+              name: Item 3
+              description: Unbelievable third item for iteming your items thirdly
+              price: 100
+              cost: 80
+            quantity: 0
+    post-items-management-success-example:
+      value:
+        lines:
+          # - item:
+          #     id: item1
+          #     name: Item 1
+          #     description: Amazing first item for iteming your items firstly
+          #     price: 1.5
+          #     cost: 0.5
+          #   quantity: 2
+          # - item:
+          #     id: item2
+          #     name: Item 2
+          #     description: Incredible second item for iteming your items secondly
+          #     price: 19.99
+          #     cost: 5
+          #   quantity: 3
+          - item:
+              id: item3
+              name: Item 3
+              description: Unbelievable third item for iteming your items thirdly
+              price: 100
+              cost: 180
+            quantity: 10
+
 
 paths:
   /sample:
@@ -276,7 +645,7 @@ paths:
           application/json:
             schema:
               type: object
-              title: ordersList
+              title: orders
               properties:
                 orders:
                   type: array
@@ -304,4 +673,136 @@ paths:
           required: true
           description: order IDs to get
       description: Get orders by ID
-    parameters: [ ]
+  /offers-management:
+    get:
+      summary: list offer management offers
+      tags:
+        - internal
+      responses:
+        '200':
+          $ref: '#/components/responses/get-offers-management-response'
+      operationId: get-management-offers
+      description: Lists all offers
+    post:
+      summary: insert offer management offers
+      tags:
+        - internal
+      operationId: post-offers
+      responses:
+        '200':
+          $ref: '#/components/responses/post-offers-management-response'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              title: offersManagementOffers
+              properties:
+                offers:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/offers-management-offer'
+              required:
+                - offers
+        description: ''
+      description: Adds or updates offers
+    delete:
+      summary: delete offer management offers
+      tags:
+        - internal
+      operationId: delete-offers
+      responses:
+        '200':
+          $ref: '#/components/responses/delete-offers-management-response'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              title: offerIds
+              properties:
+                offerIds:
+                  type: array
+                  items:
+                    type: string
+              required:
+                - offerIds
+      description: Deletes offers
+  /offers:
+    get:
+      summary: list offers
+      tags:
+        - public
+      responses:
+        '200':
+          $ref: '#/components/responses/get-offers-response'
+      operationId: get-offers
+      description: Lists all offers
+  /items:
+    get:
+      summary: list inventory items
+      tags:
+        - public
+      responses:
+        '200':
+          $ref: '#/components/responses/get-items-response'
+      operationId: get-inventory
+      description: Lists items in inventory
+      parameters: [ ]
+  /items-management:
+    get:
+      summary: list inventory management items
+      tags:
+        - internal
+      responses:
+        "200":
+          $ref: "#/components/responses/get-items-management-response"
+      operationId: get-items-management
+      parameters: [ ]
+      description: Lists items in inventory
+    post:
+      summary: upset inventory management items
+      tags:
+        - internal
+      operationId: post-items-management
+      responses:
+        "200":
+          $ref: "#/components/responses/post-items-management-response"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              title: ItemsManagementLines
+              properties:
+                lines:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/items-management-line"
+              required:
+                - lines
+        description: request to upsert inventory management items
+      description: Adds or updates items in inventory
+    delete:
+      summary: delete inventory management items
+      tags:
+        - internal
+      operationId: delete-inventory-management-items
+      responses:
+        "200":
+          $ref: "#/components/responses/delete-items-management-response"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              title: itemIds
+              properties:
+                itemIds:
+                  type: array
+                  items:
+                    type: string
+              required:
+                - itemIds
+        description: request to delete inventory management items
+      description: Deletes items from inventory
