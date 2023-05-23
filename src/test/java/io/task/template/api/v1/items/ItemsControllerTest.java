@@ -1,4 +1,4 @@
-package io.task.template.api.v1;
+package io.task.template.api.v1.items;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.task.template.CommonTest;

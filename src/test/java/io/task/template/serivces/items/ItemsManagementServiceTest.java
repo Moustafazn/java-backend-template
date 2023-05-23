@@ -1,4 +1,4 @@
-package io.task.template.serivces;
+package io.task.template.serivces.items;
 
 import io.task.template.CommonTest;
 import io.task.template.data.repositories.items.LineRepository;

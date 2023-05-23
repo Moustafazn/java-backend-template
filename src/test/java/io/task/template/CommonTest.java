@@ -4,6 +4,7 @@ import io.task.template.api.v1.resources.*;
 import io.task.template.data.dtos.LinesDto;
 import io.task.template.data.entities.items.Item;
 import io.task.template.data.entities.items.Line;
+import io.task.template.data.entities.offers.Offer;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -24,6 +25,17 @@ public class CommonTest {
         return IntStream
                 .range(0, count)
                 .mapToObj(i -> new Line(i, this.getTestItem(i)))
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    protected Offer getTestOffer(final int index) {
+        return new Offer("offer" + index, "offer description" + index, this.getTestItem(index), new BigDecimal(index + 1.2), index);
+    }
+
+    protected List<Offer> getTestOffers(final int count) {
+        return IntStream
+                .range(0, count)
+                .mapToObj(i -> this.getTestOffer(i))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 

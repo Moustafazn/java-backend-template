@@ -1,8 +1,8 @@
-package io.task.template.serivces;
+package io.task.template.serivces.offers;
 
 import io.task.template.CommonTest;
-import io.task.template.data.repositories.items.LineRepository;
-import io.task.template.services.items.ItemsService;
+import io.task.template.data.repositories.offers.OfferRepository;
+import io.task.template.services.offers.OffersService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,26 +16,26 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {ItemsService.class})
-public class ItemsServiceTest extends CommonTest {
+@ContextConfiguration(classes = {OffersService.class})
+public class OffersServiceTest extends CommonTest {
 
     @MockBean
-    private LineRepository lineRepository;
+    private OfferRepository offerRepository;
 
     @Autowired
-    private ItemsService itemsService;
+    private OffersService offersService;
 
 
     @Test
     void getLinesTest() {
-        final var lines = getTestLines(2);
-        Mockito.when(this.lineRepository.findAll())
-                .thenReturn(lines);
+        final var offers = getTestOffers(2);
+        Mockito.when(this.offerRepository.findAll())
+                .thenReturn(offers);
 
-        final var linesDto = this.itemsService.getInventory();
+        final var offersResponse = this.offersService.getOffers();
 
-        Assertions.assertEquals(lines, linesDto.getLines());
-        verify(this.lineRepository, times(1))
+        Assertions.assertEquals(offers, offersResponse);
+        verify(this.offerRepository, times(1))
                 .findAll();
     }
 

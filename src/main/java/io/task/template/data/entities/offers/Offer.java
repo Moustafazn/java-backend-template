@@ -1,24 +1,22 @@
-package io.task.template.data.entities.items;
+package io.task.template.data.entities.offers;
 
 import io.task.template.data.constants.Constants;
 import io.task.template.data.entities.AuditedEntity;
+import io.task.template.data.entities.items.Item;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "items")
+@Table(name = "offers")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Item extends AuditedEntity {
-
+public class Offer extends AuditedEntity {
     @NotNull
     @Column(nullable = false)
     private String name;
@@ -28,11 +26,15 @@ public class Item extends AuditedEntity {
     private String description;
 
     @NotNull
-    @Column(nullable = false, columnDefinition = Constants.MONEY_SQL_DEFINITION)
-    private BigDecimal price;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "item_id")
+    private Item item;
 
     @NotNull
     @Column(nullable = false, columnDefinition = Constants.MONEY_SQL_DEFINITION)
-    private BigDecimal cost;
+    private BigDecimal priceReduction;
 
+    @NotNull
+    @Column(nullable = false)
+    private Integer quantityThreshold;
 }
