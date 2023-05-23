@@ -14,8 +14,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         http
                 .antMatcher("/api/v1/**")
-                .authorizeRequests().anyRequest().hasRole("sample-role")
-                .and()
+               // .authorizeRequests().anyRequest().hasRole("sample-role")
+                //.and()
                 .cors()
                 .and()
                 .csrf().disable()

@@ -226,6 +226,7 @@ components:
         application/json:
           schema:
             type: object
+            title: deletedItemIds
             properties:
               itemIds:
                 type: array
@@ -624,13 +625,6 @@ components:
 
 
 paths:
-  /sample:
-    get:
-      summary: Sample Get API (Remove)
-      operationId: sample
-      responses:
-        200:
-          description: OK
   /orders:
     post:
       summary: place orders
