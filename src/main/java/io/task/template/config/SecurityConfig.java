@@ -16,19 +16,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain auth0FilterChain(final HttpSecurity http) throws Exception {
 
-        http.authorizeHttpRequests(authz -> authz
+        http.authorizeHttpRequests(requests -> requests
                 .requestMatchers("/api/v1/**").permitAll()
                 //.hasRole("sample-role")
                 //.requestMatchers("/h2/**").permitAll()
                 .anyRequest().authenticated());
 
+        http.cors(Customizer.withDefaults());
+
+
         http.csrf(AbstractHttpConfigurer::disable)
-                .httpBasic(Customizer.withDefaults())
-                .sessionManagement(httpSecuritySessionManagementConfigurer -> {
-                    httpSecuritySessionManagementConfigurer
-                            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-                });
+                .httpBasic(AbstractHttpConfigurer::disable);
+//                .formLogin(AbstractHttpConfigurer::disable);
+
+        http.sessionManagement(httpSecuritySessionManagementConfigurer -> {
+            httpSecuritySessionManagementConfigurer
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        });
+
         return http.build();
     }
+
 
 }
