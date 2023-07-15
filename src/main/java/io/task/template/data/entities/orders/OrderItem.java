@@ -2,10 +2,10 @@ package io.task.template.data.entities.orders;
 
 import io.task.template.data.constants.Constants;
 import io.task.template.data.entities.AuditedEntity;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity

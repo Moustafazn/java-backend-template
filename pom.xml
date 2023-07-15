@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.12</version>
+        <version>3.1.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>io.task.template</groupId>
@@ -14,7 +14,7 @@
     <name>java-backend-template</name>
     <description>Demo project for Spring Boot</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>19</java.version>
         <lombok.version>1.18.26</lombok.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
 
@@ -107,6 +107,7 @@
             <version>4.13.2</version>
         </dependency>
 
+
     </dependencies>
 
     <build>
@@ -131,10 +132,10 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>5.0.1</version>
+                <version>6.6.0</version>
                 <executions>
                     <execution>
-                        <id>generate-retailer-api-interfaces</id>
+                        <id>generate-template-api-interfaces</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
@@ -146,10 +147,11 @@
                                 <packageName>${api.package}</packageName>
                                 <apiPackage>${api.package}</apiPackage>
                                 <modelPackage>${api.package}.resources</modelPackage>
-                                <dateLibrary>java11</dateLibrary>
-                                <java11>true</java11>
+                                <dateLibrary>java19</dateLibrary>
+                                <java19>true</java19>
                                 <delegatePattern>true</delegatePattern>
                                 <useBeanValidation>true</useBeanValidation>
+                                <useJakartaEe>true</useJakartaEe>
                                 <interfaceOnly>true</interfaceOnly>
                             </configOptions>
                         </configuration>
@@ -187,6 +189,7 @@
                         </goals>
                     </execution>
                 </executions>
+
                 <configuration>
                     <annotationProcessorPaths>
                         <path>

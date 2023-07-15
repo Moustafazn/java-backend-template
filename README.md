@@ -12,7 +12,7 @@
     create database "template-tests" with owner templete;
     ```
 
-* JDK 11 ([Amazon Corretto](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html)).
+* JDK 19 ([Amazon Corretto](https://github.com/corretto/corretto-19/releases)).
 
 ## Things to Rename
 
@@ -20,5 +20,8 @@
 * Main class name `JavaBackendTemplateApplication`.
 * The name of the project in `api.yaml`, and `index.html`.
 
+# Reads
+
+* https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/spring.md
 
 

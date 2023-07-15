@@ -3,10 +3,9 @@ package io.task.template.data.entities.orders;
 import io.task.template.data.entities.AuditedEntity;
 import io.task.template.data.entities.items.Item;
 import io.task.template.data.entities.offers.Offer;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "order_offers")

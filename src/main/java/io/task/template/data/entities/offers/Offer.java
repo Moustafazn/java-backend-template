@@ -3,12 +3,12 @@ package io.task.template.data.entities.offers;
 import io.task.template.data.constants.Constants;
 import io.task.template.data.entities.AuditedEntity;
 import io.task.template.data.entities.items.Item;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity

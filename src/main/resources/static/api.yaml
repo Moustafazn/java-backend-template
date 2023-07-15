@@ -63,7 +63,7 @@ components:
 
   responses:
     Error:
-      description: Error occured
+      description: Error occurred
       content:
         application/json:
           schema:
@@ -255,7 +255,7 @@ components:
         violations:
           type: array
           items:
-            $ref: '#/components/schemas/Violation'
+            $ref: '#/components/schemas/ConstraintViolation'
 
     Violation:
       description: Violation in API request

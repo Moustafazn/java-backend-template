@@ -2,8 +2,9 @@ package io.task.template.api;
 
 import cz.jirutka.rsql.parser.RSQLParserException;
 import io.task.template.api.v1.resources.ConstraintViolationResource;
-import io.task.template.services.exceptions.BusinessException;
 import io.task.template.api.v1.resources.ErrorResource;
+import io.task.template.services.exceptions.BusinessException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.mapping.PropertyReferenceException;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.validation.ConstraintViolationException;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
