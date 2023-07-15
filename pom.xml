@@ -45,7 +45,6 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
-
         <!-- Database -->
         <dependency>
             <groupId>org.postgresql</groupId>
